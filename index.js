@@ -5,6 +5,7 @@ import Product from "./models/product.model.js";
 
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Connecting to MongoDB
 mongoose
