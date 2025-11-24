@@ -6,6 +6,7 @@ import Product from "./models/product.model.js";
 
 app.use(express.json());
 
+// Connecting to MongoDB
 mongoose
   .connect(
     "mongodb+srv://prathisahrudh_db_user:oegj4QzHVcKRd3ZW@backendapi.gxgylra.mongodb.net/?appName=BackendAPI"
@@ -20,19 +21,12 @@ mongoose
     console.log("Connection Failed");
   });
 
+  // Home Page Route
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.get('/api/products', async (req,res) => {
-  try {
-    const products = await Product.find();
-    res.status(200).json(products)
-  } catch (error) {
-    res.status(500).send({message: error.message})
-  }
-})
-
+// Create a Product
 app.post('/api/products', async (req,res) => {
     try {
         const product = await Product.create(req.body);
@@ -42,4 +36,27 @@ app.post('/api/products', async (req,res) => {
     }
     // console.log(req.body);
     // res.send(req.body)
+})
+
+
+// Get all Products
+app.get('/api/products', async (req,res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products)
+  } catch (error) {
+    res.status(500).send({message: error.message})
+  }
+})
+
+// Get a Specific Product by ID
+app.get('/api/product/:id', async (req,res) => {
+  try {
+    // const product = await Product.findById(req.params.id);
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).send({message: error.message});
+  }
 })
