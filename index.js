@@ -78,3 +78,17 @@ app.put('/api/product/:id', async (req,res) => {
     res.status(500).send({message: error.message});
   }
 })
+
+// Deleting a Product By ID
+app.delete('/api/product/:id', async (req, res) => {
+  try {
+    const { id } = req.params    
+    const product = await Product.findByIdAndDelete(id);
+    if(!product){
+      return res.status(404).send("Product not found");
+    }
+    res.status(200).send("Product Deleted Successfully");
+  } catch (error) {
+    res.status(500).send({message: error.message})
+  }
+})
